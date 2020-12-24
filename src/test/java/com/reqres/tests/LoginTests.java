@@ -39,7 +39,7 @@ public class LoginTests extends BaseTest{
 		softAssert.assertEquals(response.getStatusCode(), 200);
 
 		login200ResponsePojo = response.as(Login200ResponsePojo.class);
-		softAssert.assertNotNull(login200ResponsePojo.token);
+		softAssert.assertNotNull(login200ResponsePojo.token);// verifying that "token" field of response json exists
 		testMsg="Test Success";
 	}
 

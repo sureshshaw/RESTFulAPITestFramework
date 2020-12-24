@@ -19,10 +19,10 @@ public class BaseTest {
 	public static ExtentSparkReporter reporter;      //this must be static
 	public static ExtentReports report;              //this must be static
 	public static ExtentTest test;                   //this must be static
-	
+
 	SoftAssert softAssert;
 	public static String testMsg;
-	
+
 	@BeforeSuite
 	public void setUpTestSuite() {
 		report = new ExtentReports();
@@ -40,17 +40,14 @@ public class BaseTest {
 
 	@AfterMethod
 	public void generateReport(ITestResult result) {
-		System.out.println(result.getName());
-		try {
-			test = report.createTest(result.getName());
-		}catch(Exception e) {
-		}
+		test = report.createTest(result.getName());
 
 		try {
 			softAssert.assertAll();
 		}catch(AssertionError e) {
 			result.setStatus(2);
 		}
+		
 		if(result.isSuccess())
 			test.pass(testMsg);
 		else {
@@ -69,5 +66,5 @@ public class BaseTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
