@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="2" total="5" passed="3">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Suite" duration-ms="5524" started-at="2020-12-23T22:41:43 IST" finished-at="2020-12-23T22:41:49 IST">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="5524" started-at="2020-12-23T22:41:43 IST" finished-at="2020-12-23T22:41:49 IST">
+      <class name="com.reqres.tests.ListUserTest">
+        <test-method status="PASS" signature="setUpTestSuite()[pri:0, instance:com.reqres.tests.ListUserTest@5a8806ef]" name="setUpTestSuite" is-config="true" duration-ms="259" started-at="2020-12-23T22:41:43 IST" finished-at="2020-12-23T22:41:43 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpTestSuite -->
+        <test-method status="PASS" signature="initilizeAssert()[pri:0, instance:com.reqres.tests.ListUserTest@5a8806ef]" name="initilizeAssert" is-config="true" duration-ms="3" started-at="2020-12-23T22:41:43 IST" finished-at="2020-12-23T22:41:43 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- initilizeAssert -->
+        <test-method status="PASS" signature="listUserTest()[pri:0, instance:com.reqres.tests.ListUserTest@5a8806ef]" name="listUserTest" duration-ms="3211" started-at="2020-12-23T22:41:43 IST" finished-at="2020-12-23T22:41:47 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- listUserTest -->
+        <test-method status="PASS" signature="generateReport(org.testng.ITestResult)[pri:0, instance:com.reqres.tests.ListUserTest@5a8806ef]" name="generateReport" is-config="true" duration-ms="13" started-at="2020-12-23T22:41:47 IST" finished-at="2020-12-23T22:41:47 IST">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=listUserTest status=SUCCESS method=ListUserTest.listUserTest()[pri:0, instance:com.reqres.tests.ListUserTest@5a8806ef] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- generateReport -->
+        <test-method status="PASS" signature="launchReport()[pri:0, instance:com.reqres.tests.ListUserTest@5a8806ef]" name="launchReport" is-config="true" duration-ms="989" started-at="2020-12-23T22:41:49 IST" finished-at="2020-12-23T22:41:50 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- launchReport -->
+      </class> <!-- com.reqres.tests.ListUserTest -->
+      <class name="com.reqres.tests.LoginTests">
+        <test-method status="PASS" signature="initilizeAssert()[pri:0, instance:com.reqres.tests.LoginTests@6c49835d]" name="initilizeAssert" is-config="true" duration-ms="0" started-at="2020-12-23T22:41:47 IST" finished-at="2020-12-23T22:41:47 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- initilizeAssert -->
+        <test-method status="FAIL" signature="loginFailureTest()[pri:0, instance:com.reqres.tests.LoginTests@6c49835d]" name="loginFailureTest" duration-ms="1058" started-at="2020-12-23T22:41:47 IST" finished-at="2020-12-23T22:41:48 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- loginFailureTest -->
+        <test-method status="PASS" signature="generateReport(org.testng.ITestResult)[pri:0, instance:com.reqres.tests.LoginTests@6c49835d]" name="generateReport" is-config="true" duration-ms="5" started-at="2020-12-23T22:41:48 IST" finished-at="2020-12-23T22:41:48 IST">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=loginFailureTest status=FAILURE method=LoginTests.loginFailureTest()[pri:0, instance:com.reqres.tests.LoginTests@6c49835d] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- generateReport -->
+        <test-method status="PASS" signature="loginSuccessTest()[pri:0, instance:com.reqres.tests.LoginTests@6c49835d]" name="loginSuccessTest" duration-ms="1202" started-at="2020-12-23T22:41:48 IST" finished-at="2020-12-23T22:41:49 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- loginSuccessTest -->
+        <test-method status="PASS" signature="initilizeAssert()[pri:0, instance:com.reqres.tests.LoginTests@6c49835d]" name="initilizeAssert" is-config="true" duration-ms="0" started-at="2020-12-23T22:41:48 IST" finished-at="2020-12-23T22:41:48 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- initilizeAssert -->
+        <test-method status="PASS" signature="generateReport(org.testng.ITestResult)[pri:0, instance:com.reqres.tests.LoginTests@6c49835d]" name="generateReport" is-config="true" duration-ms="1" started-at="2020-12-23T22:41:49 IST" finished-at="2020-12-23T22:41:49 IST">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=loginSuccessTest status=SUCCESS method=LoginTests.loginSuccessTest()[pri:0, instance:com.reqres.tests.LoginTests@6c49835d] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- generateReport -->
+      </class> <!-- com.reqres.tests.LoginTests -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>
