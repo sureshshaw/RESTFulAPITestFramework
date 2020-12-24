@@ -6,6 +6,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import com.reqres.response.model.ListUserResponsePojo;
+import com.reqres.uitilites.APIConstants;
 
 import io.restassured.RestAssured;
 import io.restassured.http.Method;
@@ -18,7 +19,7 @@ public class ListUserTest extends BaseTest{
 	
 	@Test
 	public void listUserTest() {
-		RestAssured.baseURI="https://reqres.in";
+		RestAssured.baseURI=APIConstants.BASEURI;
 		RestAssured.basePath="/api/users";
 		
 		RequestSpecification request = RestAssured.given();

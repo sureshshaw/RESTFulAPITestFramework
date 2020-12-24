@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import com.reqres.request.model.LoginRequestPojo;
 import com.reqres.response.model.Login200ResponsePojo;
 import com.reqres.response.model.Login400ResponsePojo;
+import com.reqres.uitilites.APIConstants;
 import com.reqres.uitilites.ReadProperties;
 
 import io.restassured.RestAssured;
@@ -27,7 +28,7 @@ public class LoginTests extends BaseTest{
 		loginRequestPojo.setEmail(ReadProperties.getValue("EMAIL"));
 		loginRequestPojo.setPassword(ReadProperties.getValue("PASSWORD"));
 		
-		RestAssured.baseURI="https://reqres.in";
+		RestAssured.baseURI=APIConstants.BASEURI;
 		RestAssured.basePath="/api/login";
 
 		RequestSpecification request = RestAssured.given();
@@ -47,7 +48,7 @@ public class LoginTests extends BaseTest{
 		loginRequestPojo = new LoginRequestPojo();
 		loginRequestPojo.setEmail(ReadProperties.getValue("EMAIL"));
 		
-		RestAssured.baseURI="https://reqres.in";
+		RestAssured.baseURI=APIConstants.BASEURI;
 		RestAssured.basePath="/api/login";
 
 		RequestSpecification request = RestAssured.given();
