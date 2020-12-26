@@ -1,7 +1,14 @@
 package com.reqres.tests;
 
+import java.io.File;
+import java.util.Iterator;
+
 import org.testng.annotations.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reqres.request.model.LoginRequestPojo;
 import com.reqres.response.model.Login200ResponsePojo;
 import com.reqres.response.model.Login400ResponsePojo;
@@ -13,6 +20,7 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class LoginTests extends BaseTest{
 
@@ -60,9 +68,24 @@ public class LoginTests extends BaseTest{
 		
 		login400ResponsePojo = response.as(Login400ResponsePojo.class);
 		softAssert.assertTrue(login400ResponsePojo.error.equals("Missing password"));
-		
+		softAssert.assertNotNull(login400ResponsePojo.error);// checking that error property/key of response json must exists
+
+		softAssert.assertTrue(response.then().body(JsonSchemaValidator.matchesJsonSchema(new File("responseJSON/loginUnsucessfull400.json"))).toString().startsWith("io.restassured.internal.ValidatableResponseImpl"));
+				
+		//System.out.println(login400ResponsePojo.error1);
 		testMsg ="Missing password";
-		
+		ObjectMapper om = new ObjectMapper();
+		try {
+			JsonNode node = om.readTree(response.asString());
+			Iterator<String> allNodes = node.fieldNames();
+			allNodes.forEachRemaining(k -> {
+				System.out.println(k);
+			});
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
