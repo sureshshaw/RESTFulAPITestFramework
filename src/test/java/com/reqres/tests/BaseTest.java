@@ -8,11 +8,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import org.testng.asserts.SoftAssert;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.reqres.uitilites.APIConstants;
+import com.reqres.uitilites.Helper;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 public class BaseTest {
 
@@ -20,9 +24,10 @@ public class BaseTest {
 	public static ExtentReports report;              //this must be static
 	public static ExtentTest test;                   //this must be static
 
-	SoftAssert softAssert;
 	public static String testMsg;
-
+	public static RequestSpecification request;
+	public static Response response;
+	
 	@BeforeSuite
 	public void setUpTestSuite() {
 		report = new ExtentReports();
@@ -33,26 +38,22 @@ public class BaseTest {
 	}
 
 	@BeforeMethod
-	void initilizeAssert() {
-		testMsg="";
-		softAssert = new SoftAssert();
+	void initilizeTest() {
+		request = RestAssured.given();
+		request.baseUri(APIConstants.BASEURI);
+		response = null;
+		testMsg = "";
 	}
 
 	@AfterMethod
 	public void generateReport(ITestResult result) {
 		test = report.createTest(result.getName());
-
-		try {
-			softAssert.assertAll();
-		}catch(AssertionError e) {
-			result.setStatus(2);
-		}
 		
 		if(result.isSuccess())
 			test.pass(testMsg);
 		else {
-			test.fail(testMsg);
-			test.fail(result.getThrowable());
+			test.fail(result.getThrowable().getMessage());
+			test.fail("<a href='" + Helper.getResponseFilePath(result.getName(), response) + "'>Response JSON</a>");
 		}
 	}
 

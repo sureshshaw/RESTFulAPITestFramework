@@ -2,7 +2,14 @@ package com.reqres.response.model;
 
 public class Login400ResponsePojo {
 	
-	public String error;
-	//public String error1;
+	private String error;
 
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+	
 }

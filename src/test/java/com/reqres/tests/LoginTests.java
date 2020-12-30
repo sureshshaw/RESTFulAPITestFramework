@@ -1,29 +1,26 @@
 package com.reqres.tests;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.reqres.request.model.LoginRequestPojo;
 import com.reqres.response.model.Login200ResponsePojo;
 import com.reqres.response.model.Login400ResponsePojo;
-import com.reqres.uitilites.APIConstants;
-import com.reqres.uitilites.ReadProperties;
-
-import io.restassured.RestAssured;
+import com.reqres.uitilites.Helper;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class LoginTests extends BaseTest{
@@ -32,27 +29,31 @@ public class LoginTests extends BaseTest{
 	//private LoginRequestPojo loginRequestPojo1;
 	private Login200ResponsePojo login200ResponsePojo;
 	private Login400ResponsePojo login400ResponsePojo;
-	private RequestSpecification request;
-
+	
 	@BeforeClass
-	public void setUpRequestSpec() {
-
-		request = RestAssured.given();
-		request.baseUri(APIConstants.BASEURI);
-		request.basePath("/api/login");
+	public void initializePOJOs() {
+		loginRequestPojo = new LoginRequestPojo();
 	}
 
+	@BeforeMethod
+	public void setUpEndPoint() {
+		request.basePath("/api/login");
+	}
+	
 	@Test
 	public void loginSuccessTest() {
+		//We should instantiate a SoftAssert object within a @Test method. Scope of SoftAssert should only be within the Test method.
+		//We should never use the same Soft Assertions with multiple test cases.
 
-		loginRequestPojo = new LoginRequestPojo();
-		loginRequestPojo.setEmail(ReadProperties.getValue("EMAIL"));
-		loginRequestPojo.setPassword(ReadProperties.getValue("PASSWORD"));
+		SoftAssert softAssert = new SoftAssert();
+		
+		loginRequestPojo.setEmail(Helper.getValue("EMAIL"));
+		loginRequestPojo.setPassword(Helper.getValue("PASSWORD"));
 
 
 		//		loginRequestPojo1 = new LoginRequestPojo();
-		//		loginRequestPojo1.setEmail(ReadProperties.getValue("EMAIL"));
-		//		loginRequestPojo1.setPassword(ReadProperties.getValue("PASSWORD"));
+		//		loginRequestPojo1.setEmail(Helper.getValue("EMAIL"));
+		//		loginRequestPojo1.setPassword(Helper.getValue("PASSWORD"));
 
 		//		List<LoginRequestPojo> all = new ArrayList<LoginRequestPojo>();
 		//		all.add(loginRequestPojo);
@@ -62,42 +63,34 @@ public class LoginTests extends BaseTest{
 
 		request.body(loginRequestPojo);
 		request.contentType(ContentType.JSON);
-		Response response = request.post();
+		response = request.post();
 
 		softAssert.assertEquals(response.getStatusCode(), 200);
 
 		login200ResponsePojo = response.as(Login200ResponsePojo.class);
-		softAssert.assertNotNull(login200ResponsePojo.token);// verifying that "token" field of response json exists
-		testMsg="Test Success";
+		softAssert.assertNotNull(login200ResponsePojo.getToken());
+		
+		softAssert.assertAll();
 	}
 
 	@Test
-	public void loginFailureTest() {
-		//		RestAssured
-		//		.given()
-		//		// Logging all details
-		//		.log()
-		//		.all()
-		//		.when()
-		//		.get();
-
-		loginRequestPojo = new LoginRequestPojo();
-		loginRequestPojo.setEmail(ReadProperties.getValue("EMAIL"));
+	public void loginFailureTest() throws JsonMappingException, JsonProcessingException {
+		SoftAssert softAssert = new SoftAssert();
+		
+		loginRequestPojo.setEmail(Helper.getValue("EMAIL"));
 
 		request.body(loginRequestPojo);
 		request.contentType(ContentType.JSON);
-		Response response = request.post();
+		response = request.post();
 
 		softAssert.assertEquals(response.getStatusCode(), 200);
 
 		login400ResponsePojo = response.as(Login400ResponsePojo.class);
-		softAssert.assertTrue(login400ResponsePojo.error.equals("Missing password"));
-		softAssert.assertNotNull(login400ResponsePojo.error);// checking that value of error key/property must exists  
+		softAssert.assertTrue(login400ResponsePojo.getError().equals("Missing password"));
+		softAssert.assertNotNull(login400ResponsePojo.getError());// checking that value of error key/property must exists  
 
 		//validating response JSON schema so validating that all keys must be present in response json 
 		softAssert.assertTrue(response.then().body(JsonSchemaValidator.matchesJsonSchema(new File("responseJSONSchema/loginUnsucessfull400Schema.json"))).toString().startsWith("io.restassured.internal.ValidatableResponseImpl"));
-
-		testMsg ="Missing password";
 
 		// Another way to validate all the presence of all keys/properties
 		List<String> expectedKey = new ArrayList<String>();
@@ -105,37 +98,30 @@ public class LoginTests extends BaseTest{
 
 		List<String> actualKey = new ArrayList<String>();
 
-		ObjectMapper om = new ObjectMapper();
-		try {
-			JsonNode node = om.readTree(response.asString());
-			Iterator<String> allNodes = node.fieldNames();
-			while(allNodes.hasNext()) {
-				actualKey.add(allNodes.next());
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode parsedJsonObject = objectMapper.readTree(response.asString());
+		Iterator<String> allKeys= parsedJsonObject.fieldNames();
+
+		allKeys.forEachRemaining(key -> {
+			Object value = parsedJsonObject.get(key);
+			// TextNode can be related to String from previous example
+			// You may need to add IntNode or BooleanNode for different types of values
+			if(value instanceof TextNode)
+				actualKey.add(key);
+			// ObjectNode can be related to LinkedHashMap from previous example
+			else if(value instanceof ObjectNode)
+			{
+				Iterator<String> nestedKey = ((ObjectNode)value).fieldNames();
+				
+				nestedKey.forEachRemaining(nKey -> 
+					actualKey.add(key)
+				);
 			}
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+		});
 
 		softAssert.assertEqualsNoOrder(expectedKey.toArray(), actualKey.toArray());
 
-		//saving the response json as failure proof as we do in ui automation by taking screenshot of page where bug is found. 
-		//This saved json can be used as request payload for any other API
-		FileWriter writer = null;
-		try {
-			writer = new FileWriter("responseJSON/loginUnsucessfull400.json");
-			writer.write(response.asPrettyString());
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		finally {
-			try {
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		softAssert.assertAll();
 	}
 
 }
