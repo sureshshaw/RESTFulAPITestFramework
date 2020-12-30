@@ -11,8 +11,8 @@ import org.testng.annotations.BeforeSuite;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.reqres.uitilites.APIConstants;
-import com.reqres.uitilites.Helper;
+import com.reqres.utilities.APIConstants;
+import com.reqres.utilities.Helper;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;

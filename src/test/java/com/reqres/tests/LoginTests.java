@@ -19,7 +19,8 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import com.reqres.request.model.LoginRequestPojo;
 import com.reqres.response.model.Login200ResponsePojo;
 import com.reqres.response.model.Login400ResponsePojo;
-import com.reqres.uitilites.Helper;
+import com.reqres.utilities.Helper;
+
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
