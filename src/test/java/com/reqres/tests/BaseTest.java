@@ -3,6 +3,8 @@ package com.reqres.tests;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+
+import org.apache.log4j.PropertyConfigurator;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -30,6 +32,9 @@ public class BaseTest {
 	
 	@BeforeSuite
 	public void setUpTestSuite() {
+		Helper.loadPropertyFile();
+		PropertyConfigurator.configure("log4j.properties");
+		
 		report = new ExtentReports();
 		reporter = new ExtentSparkReporter("Report.html");
 		reporter.config().setDocumentTitle("Reqres Rest API Test");

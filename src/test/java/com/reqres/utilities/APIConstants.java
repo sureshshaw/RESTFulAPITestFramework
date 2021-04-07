@@ -1,4 +1,4 @@
-package com.reqres.uitilites;
+package com.reqres.utilities;
 
 public class APIConstants {
 	

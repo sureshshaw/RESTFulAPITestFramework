@@ -27,7 +27,6 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 public class LoginTests extends BaseTest{
 
 	private LoginRequestPojo loginRequestPojo;
-	//private LoginRequestPojo loginRequestPojo1;
 	private Login200ResponsePojo login200ResponsePojo;
 	private Login400ResponsePojo login400ResponsePojo;
 	
@@ -50,17 +49,6 @@ public class LoginTests extends BaseTest{
 		
 		loginRequestPojo.setEmail(Helper.getValue("EMAIL"));
 		loginRequestPojo.setPassword(Helper.getValue("PASSWORD"));
-
-
-		//		loginRequestPojo1 = new LoginRequestPojo();
-		//		loginRequestPojo1.setEmail(Helper.getValue("EMAIL"));
-		//		loginRequestPojo1.setPassword(Helper.getValue("PASSWORD"));
-
-		//		List<LoginRequestPojo> all = new ArrayList<LoginRequestPojo>();
-		//		all.add(loginRequestPojo);
-		//		all.add(loginRequestPojo1);
-
-		//		request.body(all);
 
 		request.body(loginRequestPojo);
 		request.contentType(ContentType.JSON);

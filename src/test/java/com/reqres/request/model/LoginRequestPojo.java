@@ -1,21 +1,13 @@
 package com.reqres.request.model;
 
-public class LoginRequestPojo {
+import lombok.Getter;
+import lombok.Setter;
 
-	private String email;
-	private String password;
+@Getter
+@Setter
+public class LoginRequestPojo {
 	
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	private String email;
+	private String password;	
 
 }
